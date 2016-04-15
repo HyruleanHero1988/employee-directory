@@ -26,10 +26,10 @@
         <div ng-repeat="organization in organizations | orderBy: 'name'">
             <span class="glyphicon glyphicon-home"></span>
             <span style="font-size:20px; margin-left:10px;">                        
-                        {{organization.name}}                        
+                        {{organization.name}} 
                     </span>
             <span style="margin-left:10px;">
-                        <a href="#/organizations/{{organization._id}}">Employee directory</a>
+                        <a href="#/organizations/{{organization._id}}">Employee directory ({{organization.employees.length}})</a>
                     </span>
             <span ng-click="showOrgUpdateForm(organization)" style="margin-left:10px;">
                         <a >Update</a>
