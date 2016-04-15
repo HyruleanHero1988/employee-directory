@@ -1,0 +1,144 @@
+<html>
+
+<head>
+    <title>Organization Directory</title>
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
+    <script src="/javascripts/angularApp.js"></script>
+</head>
+
+<body ng-app="organizationDirectory">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <ui-view></ui-view>
+        </div>
+    </div>
+
+    <script type="text/ng-template" id="/home.html">
+
+        <div class="page-header">
+            <button ng-click="populateData()" class="btn btn-info" style="position: absolute; margin-left: 85%; ">Populate Data</button>
+            <h1>Organization Directory</h1>
+        </div>
+
+        <div ng-repeat="organization in organizations | orderBy: 'name'">
+            <span class="glyphicon glyphicon-home"></span>
+            <span style="font-size:20px; margin-left:10px;">                        
+                        {{organization.name}}                        
+                    </span>
+            <span style="margin-left:10px;">
+                        <a href="#/organizations/{{organization._id}}">Employee directory</a>
+                    </span>
+            <span ng-click="showOrgUpdateForm(organization)" style="margin-left:10px;">
+                        <a >Update</a>
+                    </span>
+            <span ng-click="deleteOrganization(organization)" style="margin-left:10px;">
+                        <a >Delete</a>
+                    </span>
+            <br>
+            <span style="font-size:12px; margin-left:30px;">
+                        Phone number: {{organization.phoneNumber}}
+                    </span>
+            <br>
+            <span style="font-size:12px; margin-left:30px;">
+                        Website: {{organization.website}}
+                    </span>
+        </div>
+
+        <form ng-show="updating === true" ng-submit="updateOrganization(organization)" style="margin-top:30px;">
+            <h3>Update organization {{organization.name}}</h3>
+            <div class="form-group">
+                <input type="text" class="form-control" ng-model="newName"></input>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" ng-model="newPhoneNumber"></input>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" ng-model="newWebsite"></input>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Organization</button>
+        </form>
+
+        <form ng-submit="addOrganization()" style="margin-top:30px;">
+            <h3>Add a new organization</h3>
+            <div class="form-group">
+                <input type="text" class="form-control" placeHolder="Organization Name" ng-model="name"></input>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" placeHolder="Phone Number" ng-model="phoneNumber"></input>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" placeHolder="Website" ng-model="website"></input>
+            </div>
+            <button type="submit" class="btn btn-primary">Add New Organization</button>
+        </form>
+    </script>
+    <script type="text/ng-template" id="/organizations.html">
+        <div class="page-header">
+            <h3>                  
+                    {{organization.name}} Employee Directory                   
+                </h3>
+        </div>
+
+        <div ng-repeat="employee in organization.employees | orderBy:'lastName'">
+            <span class="glyphicon glyphicon-user"></span>
+            <span style="font-size:20px; margin-left:10px;">
+                    {{employee.lastName}}, {{employee.firstName}} 
+                </span>
+            <span ng-click="showEmpUpdateForm(employee)" style="margin-left:10px;">
+                    <a >Update</a>
+                </span>
+            <span ng-click="deleteEmployee(organization, employee)" style="margin-left:10px;">
+                    <a >Delete</a>
+                </span>
+            <br>
+            <span style="font-size:12px; margin-left:30px;">
+                    Phone number: {{employee.phoneNumber}}
+                </span>
+            <br>
+            <span style="font-size:12px; margin-left:30px;">
+                    Email Address: {{employee.emailAddress}}
+                </span>
+        </div>
+
+        <form ng-show="updatingEmployee === true" ng-submit="updateEmployee(employee)" style="margin-top:30px;">
+            <h3>Update Employee {{employee.firstName}} {{employee.lastName}}</h3>
+
+            <div class="form-group">
+                <input type="text" class="form-control" ng-model="newFirstName"></input>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" ng-model="newLastName"></input>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" ng-model="newPhoneNumber"></input>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" ng-model="newEmailAddress"></input>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Employee</button>
+        </form>
+
+        <form ng-submit="addEmployee()" style="margin-top:30px;">
+            <h3>Add a new Employee</h3>
+
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="First Name" ng-model="firstName"></input>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Last Name" ng-model="lastName"></input>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Phone Number" ng-model="phoneNumber"></input>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Email Address" ng-model="emailAddress"></input>
+            </div>
+            <button type="submit" class="btn btn-primary">Add New Employee</button>
+        </form>
+    </script>
+</body>
+
+</html>
